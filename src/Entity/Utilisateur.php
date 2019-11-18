@@ -39,14 +39,15 @@ class Utilisateur
     private $mdp;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $type;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\FicheFrais", mappedBy="monUtilisateur")
      */
     private $maFicheFrais;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeUtilisateur")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $monType;
 
     public function __construct()
     {
@@ -106,18 +107,6 @@ class Utilisateur
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     /**
      * @return Collection|FicheFrais[]
      */
@@ -145,6 +134,18 @@ class Utilisateur
                 $maFicheFrai->setMonUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMonType(): ?TypeUtilisateur
+    {
+        return $this->monType;
+    }
+
+    public function setMonType(?TypeUtilisateur $monType): self
+    {
+        $this->monType = $monType;
 
         return $this;
     }
