@@ -60,4 +60,15 @@ class HomeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+        /**
+     * @Route("/deconnexion", name="deconnexion")
+     */
+    public function deconnexion(Request $request)
+    {
+        $session =$request->getSession();
+        $session->clear();
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }
