@@ -50,7 +50,7 @@ class HomeController extends AbstractController
             if ($indexPW == $indexID) {
 
                 $session =$request->getSession();  
-                $session->set('idSession',$prenom);          
+                $session->set('idSession',$prenom);         
                 $this->addFlash('admin', 'Ajout réalisé avec succès.');
                 return $this->redirectToRoute('home');
             }

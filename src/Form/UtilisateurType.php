@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,12 +14,17 @@ class UtilisateurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('identifiant')
-            ->add('mdp')
+            ->add('identifiant',null, [
+                'label'  => 'Identifiant',
+            ])
+            ->add('mdp',PasswordType::class, [
+                'label'  => 'Mot de passe',
+            ])
             ->add('sauvegarder', SubmitType::class, [
                 'attr' => [
                     'class' => 'sauvegarder'
                 ],
+                'label'  => 'Se Connecter',
             ])
 
         ;

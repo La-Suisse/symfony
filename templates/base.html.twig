@@ -23,9 +23,10 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
 	</head>
 	<body>
-		<nav class="navbar navbar-dark default-color justify-content-between">
+		<nav class="navbar navbar-dark bg-dark justify-content-between">
 			<a class="navbar-brand" href="{{path('home')}}">GSB</a>
 			<form class="form-inline my-1">
+			<p style="color: white;">{{app.session.get('idSession')}}</p>
 				<a class="btn btn-primary" href="{{path('login')}}">Se Connecter</a>
 			</form>
 		</nav>
