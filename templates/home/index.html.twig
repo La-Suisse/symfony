@@ -1,15 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello HomeController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
 
-<div class="example-wrapper">
-    <h1>oui</h1>
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+		body,
+		html {
+			height: 100%;
+		}
+		.bg {
+			/* The image used */
+			background-image: url("https://media.lesechos.com/api/v1/images/view/5d14720b8fe56f5f1265a937/1280x720/2121772-la-foret-un-placement-securisant-dans-le-temps-web-tete-030682267356.jpg");
 
-</div>
+			/* Full height */
+			height: 100%;
+
+			/* Center and scale the image nicely */
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+	</style>
+
+	<div class="bg">
+		<h1>oui</h1>
+
+	</div>
 {% endblock %}

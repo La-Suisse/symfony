@@ -7,7 +7,9 @@ use App\Form\UtilisateurType;
 use Doctrine\DBAL\Schema\Index;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class HomeController extends AbstractController
 {
@@ -34,21 +36,25 @@ class HomeController extends AbstractController
             $listeuser = $log->findAll();
             $indexID = '';
             $indexPW = 't';
+            $prenom="";
             dump($user->getIdentifiant());
             foreach ($listeuser as $unUser) {
                 if ($unUser->getIdentifiant() == $user->getIdentifiant()) {
                     $indexID = $unUser->getIdentifiant();
+                    $prenom=$unUser->getPrenom();
                 }
                 if ($unUser->getMdp() == $user->getMdp()) {
                     $indexPW = $unUser->getIdentifiant();
                 }
             }
             if ($indexPW == $indexID) {
+
+                $session =$request->getSession();  
+                $session->set('idSession',$prenom);          
+                $this->addFlash('admin', 'Ajout réalisé avec succès.');
                 return $this->redirectToRoute('home');
             }
-            $this->addFlash('admin', 'Ajout réalisé avec succès.');
         }
-
         return $this->render('home/log.html.twig', [
             'controller_name' => 'HomeController',
             'form' => $form->createView(),
