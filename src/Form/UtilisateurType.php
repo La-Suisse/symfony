@@ -22,7 +22,7 @@ class UtilisateurType extends AbstractType
             ])
             ->add('sauvegarder', SubmitType::class, [
                 'attr' => [
-                    'class' => 'sauvegarder'
+                    'class' => 'sauvegarder btn btn-block'
                 ],
                 'label'  => 'Se Connecter',
             ])

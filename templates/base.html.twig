@@ -60,7 +60,7 @@ $('#modal').modal('show');
 			<div class="modal fade right" name="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-frame modal-side modal-bottom-right" role="document">
 					<div class="modal-content">
-						<div  style="background-color:black; color:white;" class="modal-body">
+						<div style="background-color:black; color:white;" class="modal-body">
 							<div class="row d-flex justify-content-center align-items-center">
 								<p class="pt-3 pr-2 pl-2">{{ message }}
 								</p>
@@ -74,5 +74,11 @@ $('#modal').modal('show');
 
 		{% block body %}{% endblock %}
 		{% block javascripts %}{% endblock %}
+		<footer style="position: fixed;bottom: 0; width:100%" class="page-footer font-small black">
+			<div class="footer-copyright text-center py-3">© 2019 Copyright:
+				<a href="#">
+					Mentions Legales</a>
+			</div>
+		</footer>
 	</body>
 </html>
