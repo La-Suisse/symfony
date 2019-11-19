@@ -26,18 +26,6 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
 	</head>
 	<body>
-		{# <nav class="navbar navbar-dark bg-dark justify-content-between">
-							<a class="navbar-brand" href="{{path('home')}}">GSB</a>
-							
-							<form class="form-inline my-1">
-								{% if app.session.get('idSession') %}
-									<p style="color: white;">{{app.session.get('idSession')}}</p>
-								{% else %}
-									<a class="btn btn-primary" href="{{path('login')}}">Se Connecter</a>
-								{% endif %}
-							</form>
-						</nav> #}
-
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="{{path('home')}}">GSB</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,17 +41,37 @@
 				</ul>
 				<form class="form-inline">
 					{% if app.session.get('idSession') %}
-						<a disabled style="color: white;">Bienvenue {{app.session.get('idSession')}}</a>
+						<a disabled style="color: white;">Bienvenue
+							{{app.session.get('PrenomSession')}}</a>
 						<a class="btn btn-white" href="{{path('deconnexion')}}">Deconnexion</a>
 					{% else %}
 						<a class="btn btn-white" href="{{path('login')}}">Connexion</a>
 					{% endif %}
 				</form>
 			</div>
-			<!-- Collapsible content -->
-
 		</nav>
-		<!--/.Navbar-->
+
+		{% for message in app.flashes('home') %}
+			<script type='text/javascript'>
+				$(document).ready(function () {
+$('#modal').modal('show');
+});
+			</script>
+			<div class="modal fade right" name="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-frame modal-side modal-bottom-right" role="document">
+					<div class="modal-content">
+						<div  style="background-color:black; color:white;" class="modal-body">
+							<div class="row d-flex justify-content-center align-items-center">
+								<p class="pt-3 pr-2 pl-2">{{ message }}
+								</p>
+								<button type="button" class="btn btn-white btn-block" data-dismiss="modal">Fermer</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+
 		{% block body %}{% endblock %}
 		{% block javascripts %}{% endblock %}
 	</body>

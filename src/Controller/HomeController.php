@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
-use Doctrine\DBAL\Schema\Index;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -36,23 +34,28 @@ class HomeController extends AbstractController
             $listeuser = $log->findAll();
             $indexID = '';
             $indexPW = 't';
-            $prenom="";
-            dump($user->getIdentifiant());
+            $prenom = "";
+            dump($user);
+            dump($listeuser);
             foreach ($listeuser as $unUser) {
                 if ($unUser->getIdentifiant() == $user->getIdentifiant()) {
                     $indexID = $unUser->getIdentifiant();
-                    $prenom=$unUser->getPrenom();
-                }
-                if ($unUser->getMdp() == $user->getMdp()) {
-                    $indexPW = $unUser->getIdentifiant();
+                    $prenom = $unUser->getPrenom();
+                    $id = $unUser->getId();
+                    if ($unUser->getMdp() == $user->getMdp()) {
+                        $indexPW = $unUser->getIdentifiant();
+                        break;
+                    }
                 }
             }
             if ($indexPW == $indexID) {
-
-                $session =$request->getSession();  
-                $session->set('idSession',$prenom);         
-                $this->addFlash('admin', 'Ajout réalisé avec succès.');
+                $session = $request->getSession();
+                $session->set('PrenomSession', $prenom);
+                $session->set('idSession', $id);
+                $this->addFlash('home', 'Vous êtes connecté.');
                 return $this->redirectToRoute('home');
+            } else {
+                $this->addFlash('home', 'Identifiant ou mot de passe incorrect');
             }
         }
         return $this->render('home/log.html.twig', [
@@ -60,12 +63,12 @@ class HomeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-        /**
+    /**
      * @Route("/deconnexion", name="deconnexion")
      */
     public function deconnexion(Request $request)
     {
-        $session =$request->getSession();
+        $session = $request->getSession();
         $session->clear();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
