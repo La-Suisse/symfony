@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!
+{% endblock %}
+
+{% block body %}
+	<div class="example-wrapper">
+		<h1>Modifier la fiche</h1>
+        <h3>Forfait</h3>
+		{{ form_start(formForfait) }}
+        
+		{{ form_end(formForfait) }}
+<hr>
+<h3>Hors Forfait</h3>
+		{{ form_start(formHorsForfait) }}
+		{{ form_end(formHorsForfait) }}
+	</div>
+{% endblock %}

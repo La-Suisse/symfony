@@ -20,20 +20,22 @@
 	<div class="example-wrapper">
 		<div class="d-flex justify-content-between row">
 			<h1 class="col-xs-6">Liste des fiches</h1>
-			<a href="#" class="btn btn-dark col-xs-3" role="button">Ajouter une fiche
+			<a href="{{path('creation')}}" class="btn btn-dark col-xs-3 {{test}}" role="button">Ajouter une fiche
 				<i class="fas fa-plus-circle"></i>
 			</a>
 		</div>
 		<ul class="list-group mb-3 hover-blue">
 			{% for uneFiche in listeFrais %}
-				<li class="list-group-item align-items-end">
-					{{ uneFiche.date|date("d/m/Y")}}
-					<a href="#" class="btn btn-dark btn-sm" style="float: right;" role="button">
-						afficher
-					</a>
-					<a href="#" class="btn btn-dark btn-sm" style="float: right;" role="button">
-						editer
-					</a>
+				<li class="list-group-item align-items-end">{{ uneFiche.date|date("F Y")}}
+					{% if uneFiche.monEtat.id >= 3 %}
+							<a href="{{ path('information', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
+								afficher
+							</a>
+					{% else %}
+							<a href="{{ path('modifier', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
+								editer
+							</a>
+					{% endif %}
 				</li>
 			{% endfor %}
 		</ul>
