@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FicheController!
+{% block title %}Toutes mes fiches - GSB
 {% endblock %}
 
 {% block body %}
@@ -28,13 +28,13 @@
 			{% for uneFiche in listeFrais %}
 				<li class="list-group-item align-items-end">{{ uneFiche.date|date("F Y")}}
 					{% if uneFiche.monEtat.id >= 3 %}
-							<a href="{{ path('information', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
-								afficher
-							</a>
+						<a href="{{ path('information', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
+							afficher
+						</a>
 					{% else %}
-							<a href="{{ path('modifier', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
-								editer
-							</a>
+						<a href="{{ path('modifier', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
+							editer
+						</a>
 					{% endif %}
 				</li>
 			{% endfor %}

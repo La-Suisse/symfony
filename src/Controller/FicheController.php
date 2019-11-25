@@ -54,10 +54,12 @@ class FicheController extends AbstractController
         $maFiche = $repoFiche->find($id);
 
 
-
-
         $forfait1 = $forfait[0];
-        $form1 = $this->createForm(ForfaitType::class, $forfait1);
+        $forfait2 = $forfait[1];
+        $forfait3 = $forfait[2];
+        $forfait4 = $forfait[3];
+
+        $form1 = $this->createForm(ForfaitType::class, $forfait[0]);
         $form1->handleRequest($request);
         if ($form1->isSubmitted() && $form1->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -66,7 +68,6 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('modifier', array("id" => $id));
         }
 
-        $forfait2 = $forfait[1];
         $form2 = $this->createForm(ForfaitType::class, $forfait2);
         $form2->handleRequest($request);
         if ($form2->isSubmitted() && $form2->isValid()) {
@@ -76,7 +77,6 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('modifier', array("id" => $id));
         }
 
-        $forfait3 = $forfait[2];
         $form3 = $this->createForm(ForfaitType::class, $forfait3);
         $form3->handleRequest($request);
         if ($form3->isSubmitted() && $form3->isValid()) {
@@ -86,7 +86,7 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('modifier', array("id" => $id));
         }
 
-        $forfait4 = $forfait[3];
+
         $form4 = $this->createForm(ForfaitType::class, $forfait4);
         $form4->handleRequest($request);
         if ($form4->isSubmitted() && $form4->isValid()) {
@@ -95,11 +95,6 @@ class FicheController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('modifier', array("id" => $id));
         }
-
-
-
-
-
 
 
         $UnHorsForfait = new HorsForfait;
