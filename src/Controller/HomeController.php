@@ -53,7 +53,7 @@ class HomeController extends AbstractController
                 $session->set('PrenomSession', $prenom);
                 $session->set('idSession', $id);
                 $this->addFlash('home', 'Vous êtes connecté.');
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('fiche');
             } else {
                 $this->addFlash('home', 'Identifiant ou mot de passe incorrect');
             }

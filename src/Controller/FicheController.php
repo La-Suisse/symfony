@@ -53,48 +53,10 @@ class FicheController extends AbstractController
         $repoFiche = $this->getDoctrine()->getRepository(FicheFrais::class);
         $maFiche = $repoFiche->find($id);
 
-
-        $forfait1 = $forfait[0];
-        $forfait2 = $forfait[1];
-        $forfait3 = $forfait[2];
-        $forfait4 = $forfait[3];
-
         $form1 = $this->createForm(ForfaitType::class, $forfait[0]);
-        $form1->handleRequest($request);
-        if ($form1->isSubmitted() && $form1->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($forfait1);
-            $entityManager->flush();
-            return $this->redirectToRoute('modifier', array("id" => $id));
-        }
-
-        $form2 = $this->createForm(ForfaitType::class, $forfait2);
-        $form2->handleRequest($request);
-        if ($form2->isSubmitted() && $form2->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($forfait2);
-            $entityManager->flush();
-            return $this->redirectToRoute('modifier', array("id" => $id));
-        }
-
-        $form3 = $this->createForm(ForfaitType::class, $forfait3);
-        $form3->handleRequest($request);
-        if ($form3->isSubmitted() && $form3->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($forfait3);
-            $entityManager->flush();
-            return $this->redirectToRoute('modifier', array("id" => $id));
-        }
-
-
-        $form4 = $this->createForm(ForfaitType::class, $forfait4);
-        $form4->handleRequest($request);
-        if ($form4->isSubmitted() && $form4->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($forfait4);
-            $entityManager->flush();
-            return $this->redirectToRoute('modifier', array("id" => $id));
-        }
+        $form2 = $this->createForm(ForfaitType::class, $forfait[1]);
+        $form3 = $this->createForm(ForfaitType::class, $forfait[2]);
+        $form4 = $this->createForm(ForfaitType::class, $forfait[3]);
 
 
         $UnHorsForfait = new HorsForfait;
@@ -110,7 +72,6 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('modifier', array("id" => $id));
         }
 
-
         return $this->render('fiche/modification.html.twig', [
             'forfaits' => $forfait,
             'horsForfaits' => $horsforfait,
@@ -119,8 +80,70 @@ class FicheController extends AbstractController
             'form2' => $form2->createView(),
             'form3' => $form3->createView(),
             'form4' => $form4->createView(),
+            'idFiche' => $id
         ]);
     }
+    /**
+     * @Route("/form1route/{id}", name="form1Route")
+     */
+    public function form1Route($id)
+    {
+        $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
+        $forfaits = $repoForfait->findBy(['maFiche' => $id]);
+        $forfait = $forfaits[0];
+        $forfait->setQuantite($_GET['forfait']['quantite']);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($forfait);
+        $entityManager->flush();
+        return $this->redirectToRoute('modifier', array("id" => $id));
+    }
+
+    /**
+     * @Route("/form2route/{id}", name="form2Route")
+     */
+    public function form2Route($id)
+    {
+        $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
+        $forfaits = $repoForfait->findBy(['maFiche' => $id]);
+        $forfait = $forfaits[1];
+        $forfait->setQuantite($_GET['forfait']['quantite']);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($forfait);
+        $entityManager->flush();
+        return $this->redirectToRoute('modifier', array("id" => $id));
+    }
+
+    /**
+     * @Route("/form3route/{id}", name="form3Route")
+     */
+    public function form3Route($id)
+    {
+        $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
+        $forfaits = $repoForfait->findBy(['maFiche' => $id]);
+        $forfait = $forfaits[2];
+        $forfait->setQuantite($_GET['forfait']['quantite']);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($forfait);
+        $entityManager->flush();
+        return $this->redirectToRoute('modifier', array("id" => $id));
+    }
+
+    /**
+     * @Route("/form4route/{id}", name="form4Route")
+     */
+    public function form4Route($id)
+    {
+        $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
+        $forfaits = $repoForfait->findBy(['maFiche' => $id]);
+        $forfait = $forfaits[3];
+        $forfait->setQuantite($_GET['forfait']['quantite']);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($forfait);
+        $entityManager->flush();
+        return $this->redirectToRoute('modifier', array("id" => $id));
+    }
+
+
 
     /**
      * @Route("/creation", name="creation")

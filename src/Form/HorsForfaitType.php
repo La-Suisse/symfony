@@ -29,6 +29,7 @@ class HorsForfaitType extends AbstractType
                 'attr' => [
                     'class' => '',
                     'placeholder' => 'Libelle',
+                    'style' => ''
                 ]
             ])
             ->add('prix', NumberType::class, [
@@ -40,11 +41,10 @@ class HorsForfaitType extends AbstractType
             ])
             ->add('sauvegarder', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-sm btn-dark',
-                    'style' => 'float:right',
-                    'onSubmit' => "return(confirm('Êtes-vous sûr ?'))",
+                    'class' => 'btn btn-sm btn-dark fas fa-plus-circle',
+                    'style' => 'float:right;font-size:14px',
                 ],
-                'label'  => 'Ajouter',
+                'label'  => ' ',
             ]);
     }
 

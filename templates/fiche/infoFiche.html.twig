@@ -15,6 +15,9 @@
 			background: #F5F5F5;
 			padding: 2px 6px;
 		}
+		.center {
+			margin-top: 10px;
+		}
 	</style>
 
 	<div class="example-wrapper">
@@ -22,20 +25,26 @@
 		<h3>Forfait</h3>
 		<ul class="list-group mb-3 hover-blue">
 			{% for forfait in forfaits %}
-				<li class="list-group-item align-items-end">{{forfait.monType.libelle}}
-					({{forfait.monType.prix}}€)
-					<p style="float: right;">Quantité(s) :
-						{{forfait.quantite}}</p>
+				<li class="list-group-item align-items-end">
+					<div class="center">
+						{{forfait.monType.libelle}}
+						({{forfait.monType.prix}}€)
+						<p style="float: right;">Quantité(s) :
+							{{forfait.quantite}}</p>
+					</div>
 				</li>
 			{% endfor %}
 		</ul>
 		<h3>Hors Forfait</h3>
 		<ul class="list-group mb-3 hover-blue">
 			{% for horsforfait in horsForfaits %}
-				<li class="list-group-item align-items-end">{{horsforfait.libelle}}
-					({{horsforfait.date|date('d/m/Y')}})
-					<p style="float: right;">Prix :
-						{{horsforfait.prix}}€</p>
+				<li class="list-group-item align-items-end">
+					<div class="center">
+						{{horsforfait.libelle}}
+						({{horsforfait.date|date('d/m/Y')}})
+						<p style="float: right;">Prix :
+							{{horsforfait.prix}}€</p>
+					</div>
 				</li>
 			{% endfor %}
 		</ul>
