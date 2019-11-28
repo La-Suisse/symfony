@@ -13,7 +13,6 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 class FicheController extends AbstractController
 {
@@ -24,6 +23,9 @@ class FicheController extends AbstractController
     {
         $session = $request->getSession();
         $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repo = $this->getDoctrine()->getRepository(Utilisateur::class);
         $UserBdd = $repo->find($idSession);
         $listefiches = $UserBdd->getMaFicheFrais();
@@ -45,6 +47,12 @@ class FicheController extends AbstractController
      */
     public function modifer($id, Request $request)
     {
+        $button = null;
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $repoHors = $this->getDoctrine()->getRepository(HorsForfait::class);
         $forfait = $repoForfait->findBy(['maFiche' => $id]);
@@ -80,14 +88,21 @@ class FicheController extends AbstractController
             'form2' => $form2->createView(),
             'form3' => $form3->createView(),
             'form4' => $form4->createView(),
-            'idFiche' => $id
+            'idFiche' => $id,
+            'button' => $button,
+            'maFiche' => $maFiche
         ]);
     }
     /**
      * @Route("/form1route/{id}", name="form1Route")
      */
-    public function form1Route($id)
+    public function form1Route($id, Request $request)
     {
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $forfaits = $repoForfait->findBy(['maFiche' => $id]);
         $forfait = $forfaits[0];
@@ -101,8 +116,13 @@ class FicheController extends AbstractController
     /**
      * @Route("/form2route/{id}", name="form2Route")
      */
-    public function form2Route($id)
+    public function form2Route($id, Request $request)
     {
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $forfaits = $repoForfait->findBy(['maFiche' => $id]);
         $forfait = $forfaits[1];
@@ -116,8 +136,13 @@ class FicheController extends AbstractController
     /**
      * @Route("/form3route/{id}", name="form3Route")
      */
-    public function form3Route($id)
+    public function form3Route($id, Request $request)
     {
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $forfaits = $repoForfait->findBy(['maFiche' => $id]);
         $forfait = $forfaits[2];
@@ -131,8 +156,13 @@ class FicheController extends AbstractController
     /**
      * @Route("/form4route/{id}", name="form4Route")
      */
-    public function form4Route($id)
+    public function form4Route($id, Request $request)
     {
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $forfaits = $repoForfait->findBy(['maFiche' => $id]);
         $forfait = $forfaits[3];
@@ -152,6 +182,9 @@ class FicheController extends AbstractController
     {
         $session = $request->getSession();
         $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $date = new DateTime("now");
         $newFiche = new FicheFrais();
         $repoUser = $this->getDoctrine()->getRepository(Utilisateur::class);
@@ -169,31 +202,43 @@ class FicheController extends AbstractController
         $entityManager->persist($newFiche);
         $entityManager->flush();
 
+        $idFiche = $newFiche->getId();
 
-        return $this->redirectToRoute('fiche');
+        return $this->redirectToRoute('modifier', array('id' => $idFiche));
     }
     /**
      * @Route("/information/{id}", name="information")
      */
-    public function information($id)
+    public function information($id, Request $request)
     {
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $repoHors = $this->getDoctrine()->getRepository(HorsForfait::class);
         $forfait = $repoForfait->findBy(['maFiche' => $id]);
-        dump($forfait);
         $horsforfait = $repoHors->findBy(['maFiche' => $id]);
-        dump($horsforfait);
+        $repoFiche = $this->getDoctrine()->getRepository(FicheFrais::class);
+        $maFiche = $repoFiche->find($id);
 
         return $this->render('fiche/infoFiche.html.twig', [
             'forfaits' => $forfait,
-            'horsForfaits' => $horsforfait
+            'horsForfaits' => $horsforfait,
+            'maFiche' => $maFiche,
         ]);
     }
     /**
      * @Route("/supprimer/{id}", name="supprimer")
      */
-    public function supprimer($id)
+    public function supprimer($id, Request $request)
     {
+        $session = $request->getSession();
+        $idSession = $session->get('idSession');
+        if (!isset($idSession)) {
+            return $this->redirectToRoute('login');
+        }
         $repoHors = $this->getDoctrine()->getRepository(HorsForfait::class);
         $horsforfait = $repoHors->find($id);
         $Fiche = $horsforfait->getMaFiche();

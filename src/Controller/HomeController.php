@@ -2,9 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\FicheFrais;
+use App\Entity\Forfait;
+use App\Entity\HorsForfait;
+use App\Entity\TypeUtilisateur;
 use App\Entity\Utilisateur;
+use App\Form\ForfaitType;
 use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -44,11 +50,12 @@ class HomeController extends AbstractController
                     $id = $unUser->getId();
                     if ($unUser->getMdp() == $user->getMdp()) {
                         $indexPW = $unUser->getIdentifiant();
+                        $type = $unUser->getMonType()->getLibelle();
                         break;
                     }
                 }
             }
-            if ($indexPW == $indexID) {
+            if ($indexPW == $indexID && $type == 'Visiteur') {
                 $session = $request->getSession();
                 $session->set('PrenomSession', $prenom);
                 $session->set('idSession', $id);
@@ -73,5 +80,93 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
+    }
+
+    /**
+     * @Route("/apifiches", name="apifiches")
+     */
+    public function apiFiches()
+    {
+        header('Access-Control-Allow-Origin: *');
+        $repoUser = $this->getDoctrine()->getRepository(Utilisateur::class);
+        $repoFiche = $this->getDoctrine()->getRepository(FicheFrais::class);
+        $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
+        $repoHorsForfait = $this->getDoctrine()->getRepository(HorsForfait::class);
+        $utilisateurs = $repoUser->findAll();
+        $formatted = [];
+        foreach ($utilisateurs as $utilisateur) {
+            $fiches = $repoFiche->findBy(['monUtilisateur' => $utilisateur->getId()]);
+            foreach ($fiches as $fiche) {
+                $forfaits = $repoForfait->findBy(['maFiche' => $fiche->getId()]);
+                foreach ($forfaits as $forfait) {
+                    $type = $forfait->getMonType();
+                    $valeurs[] = [
+                        'libelle' => $type->getLibelle(),
+                        'quantite' => $forfait->getQuantite(),
+                        'prix' => $type->getPrix(),
+                    ];
+                    $forfaitTab[] = [
+                        'id' => $forfait->getId(),
+                        'type' => 'forfait',
+                        'valeurs' => $valeurs
+                    ];
+                    $valeurs = null;
+                }
+                $horsForfaits = $repoHorsForfait->findBy(['maFiche' => $fiche->getId()]);
+                foreach ($horsForfaits as $horsForfait) {
+                    $valeursHF[] = [
+                        'date' => $horsForfait->getDate()->format('d/m/Y'),
+                        'libelle' => $horsForfait->getLibelle(),
+                        'prix' => $horsForfait->getPrix(),
+
+                    ];
+                    $horsforfaitTab[] = [
+                        'id' => $horsForfait->getId(),
+                        'type' => 'horsforfait',
+                        'valeurs' => $valeursHF,
+                    ];
+                    $valeursHF = null;
+                }
+                $renvoi[] = [
+                    'fiche' => $fiche->getId(),
+                    'date' => $fiche->getDate()->format('M Y'),
+                    'forfait' => $forfaitTab,
+                    'horsforfait' => $horsforfaitTab,
+                ];
+                $forfaitTab = null;
+                $horsforfaitTab = null;
+            }
+            $formatted[] = [
+                'id'                => $utilisateur->getId(),
+                'fiches' => $renvoi,
+            ];
+            $renvoi = null;
+        }
+        return new JsonResponse($formatted);
+    }
+
+
+
+
+    /**
+     * @Route("/apiusers", name="apiusers")
+     */
+    public function apiUsers()
+    {
+        header('Access-Control-Allow-Origin: *');
+        $repoUser = $this->getDoctrine()->getRepository(Utilisateur::class);
+        $utilisateurs = $repoUser->findAll();
+        $formatted = [];
+        foreach ($utilisateurs as $utilisateur) {
+            $formatted[] = [
+                "id" => $utilisateur->getId(),
+                "identifiant" => $utilisateur->getIdentifiant(),
+                "motDePasse" => $utilisateur->getMdp(),
+                "type" => $utilisateur->getMonType()->getLibelle(),
+            ];
+        }
+
+
+        return new JsonResponse($formatted);
     }
 }

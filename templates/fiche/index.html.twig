@@ -36,11 +36,11 @@
 						</div>
 						<div class="col-2" style="float:right;">
 							{% if uneFiche.monEtat.id >= 3 %}
-								<a href="{{ path('information', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
+								<a href="{{ path('information', {'id': uneFiche.id}) }}" class="btn btn-primary btn-sm" style="float: right;" role="button">
 									afficher
 								</a>
 							{% else %}
-								<a href="{{ path('modifier', {'id': uneFiche.id}) }}" class="btn btn-dark btn-sm" style="float: right;" role="button">
+								<a href="{{ path('modifier', {'id': uneFiche.id}) }}" class="btn btn-success btn-sm" style="float: right;" role="button">
 									editer
 								</a>
 							{% endif %}

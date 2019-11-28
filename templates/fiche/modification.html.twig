@@ -21,10 +21,38 @@
 		.center5 {
 			margin-top: 5px;
 		}
+		.rotate-center {
+			-webkit-animation: rotate-center 0.6s ease-in-out both;
+			animation: rotate-center 0.6s ease-in-out both;
+		}
+
+		@-webkit-keyframes rotate-center {
+			0% {
+				-webkit-transform: rotate(0);
+				transform: rotate(0);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+		@keyframes rotate-center {
+			0% {
+				-webkit-transform: rotate(0);
+				transform: rotate(0);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
 	</style>
 
 	<div class="example-wrapper">
-		<h1 class="text-center">Modification</h1>
+		<h1 class="text-center">
+			{{maFiche.date|date('M Y')}}
+			({{maFiche.monEtat.libelle}})
+		</h1>
 		<h3>Forfait</h3>
 		<ul class="list-group mb-3 hover-blue">
 			<li class="list-group-item align-items-end">
@@ -140,8 +168,32 @@
 			</div>
 
 		</ul>
-		<a class="" style="border-radius:50%; color:black; font-size:40px" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
-			<i class="fas fa-plus-circle"></i>
+
+		<a style="border-radius:50%; color:black; font-size:40px" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
+			<div class="fas fa-plus-circle" id="salut"></div>
+
+			{# <i class="fas fa-times-circle"></i> #}
 		</a>
 	</div>
+
+	<script type="text/javascript">
+		var x = document.getElementById("salut");
+console.log(x);
+$('.collapse').on('shown.bs.collapse', function () {
+x.classList.add("rotate-center");
+x.classList.remove("fa-plus-circle");
+x.classList.add("fa-times-circle");
+setTimeout(() => {
+x.classList.remove("rotate-center");
+}, 600);
+
+}).on('hidden.bs.collapse', function () {
+x.classList.add("rotate-center");
+x.classList.remove("fa-times-circle")
+x.classList.add("fa-plus-circle");
+setTimeout(() => {
+x.classList.remove("rotate-center");
+}, 600);
+});
+	</script>
 {% endblock %}

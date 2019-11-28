@@ -21,7 +21,10 @@
 	</style>
 
 	<div class="example-wrapper">
-		<h1 class="text-center">Information</h1>
+		<h1 class="text-center">
+			{{maFiche.date|date('M Y')}}
+			({{maFiche.monEtat.libelle}})
+		</h1>
 		<h3>Forfait</h3>
 		<ul class="list-group mb-3 hover-blue">
 			{% for forfait in forfaits %}

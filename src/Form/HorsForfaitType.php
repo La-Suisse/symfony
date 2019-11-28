@@ -41,10 +41,10 @@ class HorsForfaitType extends AbstractType
             ])
             ->add('sauvegarder', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-sm btn-dark fas fa-plus-circle',
+                    'class' => 'btn btn-sm btn-success fas fa-plus-circle',
                     'style' => 'float:right;font-size:14px',
                 ],
-                'label'  => ' ',
+                'label'  => ' Ajouter',
             ]);
     }
 

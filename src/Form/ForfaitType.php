@@ -24,10 +24,10 @@ class ForfaitType extends AbstractType
             ])
             ->add('sauvegarder', SubmitType::class, [
                 'attr' => [
-                    'class' => ' save btn btn-sm btn-dark far fa-edit',
+                    'class' => '  save btn btn-sm btn-success far fa-edit',
                     'style' => 'float:right;font-size:14px;'
                 ],
-                'label'  => ' ',
+                'label'  => ' Valider',
             ]);
     }
 
