@@ -130,6 +130,9 @@ class HomeController extends AbstractController
                 $renvoi[] = [
                     'fiche' => $fiche->getId(),
                     'date' => $fiche->getDate()->format('M Y'),
+                    'etat' => $fiche->getMonEtat()->getLibelle(),
+                    'collapse' => 'collapse' . strval($fiche->getId()),
+                    'collapseT' => '#collapse' . strval($fiche->getId()),
                     'forfait' => $forfaitTab,
                     'horsforfait' => $horsforfaitTab,
                 ];
