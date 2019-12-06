@@ -3,9 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Forfait;
-use App\Entity\TypeFrais;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,15 +11,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForfaitType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) // formulaire de modification de frais forfaitiser
     {
         $builder
-            ->add('quantite', NumberType::class, [
+            ->add('quantite', NumberType::class, [ //quantité du forfait
                 'attr' => [
                     'class' => ''
                 ]
             ])
-            ->add('sauvegarder', SubmitType::class, [
+            ->add('sauvegarder', SubmitType::class, [ //bouton de validation (envoi le formulaire)
                 'attr' => [
                     'class' => '  save btn btn-sm btn-success far fa-edit',
                     'style' => 'float:right;font-size:14px;'

@@ -11,23 +11,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UtilisateurType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) //formulaire de connexion
     {
         $builder
-            ->add('identifiant',null, [
+            ->add('identifiant', null, [
                 'label'  => 'Identifiant',
             ])
-            ->add('mdp',PasswordType::class, [
+            ->add('mdp', PasswordType::class, [
                 'label'  => 'Mot de passe',
             ])
-            ->add('sauvegarder', SubmitType::class, [
+            ->add('sauvegarder', SubmitType::class, [ //bouton de validation (envoi le formulaire)
                 'attr' => [
                     'class' => 'sauvegarder btn btn-block'
                 ],
                 'label'  => 'Se Connecter',
-            ])
-
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

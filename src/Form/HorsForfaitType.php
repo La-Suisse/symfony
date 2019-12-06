@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\HorsForfait;
-use DateTime;
-use phpDocumentor\Reflection\Types\Float_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -15,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HorsForfaitType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) // formulaire d'ajout de hors forfait
     {
         $builder
             ->add('date', DateType::class, [
@@ -39,7 +37,7 @@ class HorsForfaitType extends AbstractType
                     'type' => 'number',
                 ]
             ])
-            ->add('sauvegarder', SubmitType::class, [
+            ->add('sauvegarder', SubmitType::class, [ //bouton de validation (envoi le formulaire)
                 'attr' => [
                     'class' => 'btn btn-sm btn-success fas fa-plus-circle',
                     'style' => 'float:right;font-size:14px',

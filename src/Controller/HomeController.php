@@ -5,9 +5,7 @@ namespace App\Controller;
 use App\Entity\FicheFrais;
 use App\Entity\Forfait;
 use App\Entity\HorsForfait;
-use App\Entity\TypeUtilisateur;
 use App\Entity\Utilisateur;
-use App\Form\ForfaitType;
 use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,7 +28,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/log", name="login")
      */
-    public function login(Request $request)
+    public function login(Request $request) //UC : gestion de la connexion
     {
         $log = $this->getDoctrine()->getRepository(Utilisateur::class);
         $user = new Utilisateur();
@@ -50,16 +48,19 @@ class HomeController extends AbstractController
                     $id = $unUser->getId();
                     if ($unUser->getMdp() == $user->getMdp()) {
                         $indexPW = $unUser->getIdentifiant();
-                        $type = $unUser->getMonType()->getLibelle();
+                        $type = $unUser->getMonType()->getLibelle(); //recuperation du type de l'utilisateur
                         break;
                     }
                 }
             }
-            if ($indexPW == $indexID && $type == 'Visiteur') {
+            if ($indexPW == $indexID && $type == 'Visiteur') { // compare si l'identifiant et le mot de passe correspondent au meme utilisateur et verrifie aussi son type
+                // debut : assigne les information en session
                 $session = $request->getSession();
                 $session->set('PrenomSession', $prenom);
                 $session->set('idSession', $id);
-                $this->addFlash('home', 'Vous êtes connecté.');
+                // fin
+
+                $this->addFlash('home', 'Vous êtes connecté.'); //message flash a la connexion
                 return $this->redirectToRoute('fiche');
             } else {
                 $this->addFlash('home', 'Identifiant ou mot de passe incorrect');
@@ -73,7 +74,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/deconnexion", name="deconnexion")
      */
-    public function deconnexion(Request $request)
+    public function deconnexion(Request $request) // UC : deconnexion de l'utilisateur
     {
         $session = $request->getSession();
         $session->clear();
@@ -85,7 +86,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/apifiches", name="apifiches")
      */
-    public function apiFiches()
+    public function apiFiches() // api de toutes les fiche de l'application console
     {
         header('Access-Control-Allow-Origin: *');
         $repoUser = $this->getDoctrine()->getRepository(Utilisateur::class);
@@ -145,7 +146,7 @@ class HomeController extends AbstractController
             ];
             $renvoi = null;
         }
-        return new JsonResponse($formatted);
+        return new JsonResponse($formatted); //retourne un fichier json
     }
 
 
@@ -154,7 +155,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/apiusers", name="apiusers")
      */
-    public function apiUsers()
+    public function apiUsers() // api de tous les utilisateurs
     {
         header('Access-Control-Allow-Origin: *');
         $repoUser = $this->getDoctrine()->getRepository(Utilisateur::class);
@@ -170,6 +171,6 @@ class HomeController extends AbstractController
         }
 
 
-        return new JsonResponse($formatted);
+        return new JsonResponse($formatted); //retourne un fichier json
     }
 }
