@@ -39,8 +39,6 @@ class HomeController extends AbstractController
             $indexID = '';
             $indexPW = 't';
             $prenom = "";
-            dump($user);
-            dump($listeuser);
             foreach ($listeuser as $unUser) {
                 if ($unUser->getIdentifiant() == $user->getIdentifiant()) {
                     $indexID = $unUser->getIdentifiant();
@@ -132,8 +130,7 @@ class HomeController extends AbstractController
                     'fiche' => $fiche->getId(),
                     'date' => $fiche->getDate()->format('M Y'),
                     'etat' => $fiche->getMonEtat()->getLibelle(),
-                    'collapse' => 'collapse' . strval($fiche->getId()),
-                    'collapseT' => '#collapse' . strval($fiche->getId()),
+                    'montant' => $fiche->getMontant(),
                     'forfait' => $forfaitTab,
                     'horsforfait' => $horsforfaitTab,
                 ];
