@@ -18,9 +18,25 @@
 		.center {
 			margin-top: 10px;
 		}
+		body,
+		html {
+			height: 100%;
+		}
+		.bg {
+			/* The image used */
+			background-image: url("images/backWhite.png");
+
+			/* Full height */
+			height: 100%;
+
+			/* Center and scale the image nicely */
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
 	</style>
 
-	<div class="example-wrapper">
+	<div class="example-wrapper bg">
 		<div class="d-flex justify-content-between row">
 			<h1 class="col-xs-6">Liste des fiches</h1>
 			<a href="{{path('creation')}}" class="btn btn-dark col-xs-3 {{etatBouton}}" role="button">Ajouter une fiche
