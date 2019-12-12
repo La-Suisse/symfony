@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FicheController extends AbstractController
 {
     /**
-     * @Route("/fiche", name="fiche") test
+     * @Route("/fiche", name="fiche")
      */
     public function index(Request $request) //UC : affichage de toutes les fiches en fonction de l'utilisateur
     {
