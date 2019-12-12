@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/log", name="login")
      */
-    public function login(Request $request) //UC : gestion de la connexion
+    public function login(Request $request) //UC : gestion de la connexion des utilisateurs
     {
         $log = $this->getDoctrine()->getRepository(Utilisateur::class);
         $user = new Utilisateur();
