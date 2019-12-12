@@ -1,0 +1,199 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification - GSB
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+		.center {
+			margin-top: 10px;
+		}
+		.center5 {
+			margin-top: 5px;
+		}
+		.rotate-center {
+			-webkit-animation: rotate-center 0.6s ease-in-out both;
+			animation: rotate-center 0.6s ease-in-out both;
+		}
+
+		@-webkit-keyframes rotate-center {
+			0% {
+				-webkit-transform: rotate(0);
+				transform: rotate(0);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+		@keyframes rotate-center {
+			0% {
+				-webkit-transform: rotate(0);
+				transform: rotate(0);
+			}
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<h1 class="text-center">
+			{{maFiche.date|date('M Y')}}
+			({{maFiche.monEtat.libelle}})
+		</h1>
+		<h3>Forfait</h3>
+		<ul class="list-group mb-3 hover-blue">
+			<li class="list-group-item align-items-end">
+				{{ form_start(form1,{'action': path('form1Route',{'id':idFiche}), 'method': 'GET'}) }}
+				<div class="row">
+					<div class="col-6 center">
+						{{forfaits[0].monType.libelle}}
+						({{forfaits[0].monType.prix}}€)
+					</div>
+					<div class="col-3 center5">
+						{{form_widget(form1.quantite)}}
+					</div>
+					<div class="col-3">
+						{{form_widget(form1.sauvegarder)}}
+					</div>
+				</div>
+				{{ form_end(form1) }}
+			</li>
+
+			<li class="list-group-item align-items-end">
+				{{ form_start(form2,{'action': path('form2Route',{'id':idFiche}), 'method': 'GET'}) }}
+				<div class="row">
+					<div class="col-6 center">
+						{{forfaits[1].monType.libelle}}
+						({{forfaits[1].monType.prix}}€)
+					</div>
+					<div class="col-3 center5">
+						{{form_widget(form2.quantite)}}
+					</div>
+					<div class="col-3">
+						{{form_widget(form2.sauvegarder)}}
+					</div>
+				</div>
+				{{ form_end(form2) }}
+			</li>
+
+			<li class="list-group-item align-items-end">
+				{{ form_start(form3,{'action': path('form3Route',{'id':idFiche}), 'method': 'GET'}) }}
+				<div class="row">
+					<div class="col-6 center">
+						{{forfaits[2].monType.libelle}}
+						({{forfaits[2].monType.prix}}€)
+					</div>
+					<div class="col-3 center5">
+						{{form_widget(form3.quantite)}}
+					</div>
+					<div class="col-3">
+						{{form_widget(form3.sauvegarder)}}
+					</div>
+				</div>
+				{{ form_end(form3) }}
+			</li>
+
+			<li class="list-group-item align-items-end">
+				{{ form_start(form4,{'action': path('form4Route',{'id':idFiche}), 'method': 'GET'}) }}
+				<div class="row">
+					<div class="col-6 center">
+						{{forfaits[3].monType.libelle}}
+						({{forfaits[3].monType.prix}}€)
+					</div>
+					<div class="col-3 center5">
+						{{form_widget(form4.quantite)}}
+					</div>
+					<div class="col-3">
+						{{form_widget(form4.sauvegarder)}}
+					</div>
+				</div>
+				{{ form_end(form4) }}
+			</li>
+		</ul>
+		<h3>Hors Forfait</h3>
+		<ul class="list-group mb-3 hover-blue">
+			{% for horsforfait in horsForfaits %}
+				<li class="list-group-item align-items-end ">
+					<div class="row">
+						<div class="col-6 center">
+							{{horsforfait.libelle}}
+							({{horsforfait.date|date('d/m/Y')}})
+						</div>
+						<div class="col-3 center">
+							<p style="float: right;">Prix :
+								{{horsforfait.prix}}€</p>
+						</div>
+						<div class="col-3">
+							<a href="{{ path('supprimer', {'id': horsforfait.id}) }}" class="btn btn-danger btn-sm" style="float: right;font-size:14px" role="button">
+								<i class="far fa-trash-alt"></i>
+							</a>
+						</div>
+					</div>
+				</li>
+			{% endfor %}
+
+			<div class="collapse" id="collapse">
+				{{ form_start(form) }}
+				<li class="list-group-item align-items-end">
+					<div class="row">
+						<div class="col-lg-3 col-md-12 col-xs-12 center5">
+							{{form_widget(form.libelle)}}
+						</div>
+						<div class="col-lg-4 col-md-12 center5">
+							{{form_widget(form.date)}}
+						</div>
+						<div class="col-lg-2 col-md-12 center5">
+							{{form_widget(form.prix)}}
+						</div>
+						<div class="col-lg-3 col-md-12">
+							{{form_widget(form.sauvegarder)}}
+						</div>
+					</div>
+				</li>
+
+				{{ form_end(form) }}
+			</div>
+
+		</ul>
+
+		<a style="border-radius:50%; color:black; font-size:40px" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
+			<div class="fas fa-plus-circle" id="salut"></div>
+
+			{# <i class="fas fa-times-circle"></i> #}
+		</a>
+	</div>
+
+	<script type="text/javascript">
+		var x = document.getElementById("salut");
+console.log(x);
+$('.collapse').on('shown.bs.collapse', function () {
+x.classList.add("rotate-center");
+x.classList.remove("fa-plus-circle");
+x.classList.add("fa-times-circle");
+setTimeout(() => {
+x.classList.remove("rotate-center");
+}, 600);
+
+}).on('hidden.bs.collapse', function () {
+x.classList.add("rotate-center");
+x.classList.remove("fa-times-circle")
+x.classList.add("fa-plus-circle");
+setTimeout(() => {
+x.classList.remove("rotate-center");
+}, 600);
+});
+	</script>
+{% endblock %}
