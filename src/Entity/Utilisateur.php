@@ -40,6 +40,7 @@ class Utilisateur
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\FicheFrais", mappedBy="monUtilisateur")
+     * @ORM\OrderBy({"date" = "DESC"})
      */
     private $maFicheFrais;
 

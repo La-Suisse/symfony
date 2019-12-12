@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FicheController extends AbstractController
 {
     /**
-     * @Route("/fiche", name="fiche")
+     * @Route("/fiche", name="fiche") test
      */
     public function index(Request $request) //UC : affichage de toutes les fiches en fonction de l'utilisateur
     {
@@ -30,8 +30,11 @@ class FicheController extends AbstractController
 
         //recuperation de l'utilisateur en fonction de son id aissi que toutes les fiches
         $repo = $this->getDoctrine()->getRepository(Utilisateur::class);
+        $repoFiches = $this->getDoctrine()->getRepository(FicheFrais::class);
         $UserBdd = $repo->find($idSession);
+        dump($UserBdd);
         $listefiches = $UserBdd->getMaFicheFrais();
+        dump($listefiches);
 
         //sert a griser le bouton si une fiche a ete cree par l'utilisateur ce mois ci
         $etatBouton = "";
@@ -226,7 +229,7 @@ class FicheController extends AbstractController
         $newFiche->setMonUtilisateur($utilistateur);
         $newFiche->setDate($date);
 
-        //envoi de la fiche dans la base 
+        //envoi de la fiche dans la base
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($newFiche);
         $entityManager->flush();

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function index()
     {
@@ -94,7 +94,10 @@ class HomeController extends AbstractController
         $utilisateurs = $repoUser->findAll();
         $formatted = [];
         foreach ($utilisateurs as $utilisateur) {
-            $fiches = $repoFiche->findBy(['monUtilisateur' => $utilisateur->getId()]);
+            $fiches = $repoFiche->findBy(
+                ['monUtilisateur' => $utilisateur->getId()],
+                ['date' => 'DESC']
+            );
             foreach ($fiches as $fiche) {
                 $forfaits = $repoForfait->findBy(['maFiche' => $fiche->getId()]);
                 foreach ($forfaits as $forfait) {
