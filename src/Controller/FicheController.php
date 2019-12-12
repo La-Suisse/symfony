@@ -21,7 +21,7 @@ class FicheController extends AbstractController
      */
     public function index(Request $request) //UC : affichage de toutes les fiches en fonction de l'utilisateur
     {
-        //recuperation de l'id de l'utilisateur en session et test si il existe
+        //recuperation de l'id de l'utilisateur en session et test si il existe  salut
         $session = $request->getSession();
         $idSession = $session->get('idSession');
         if (!isset($idSession)) {
