@@ -44,7 +44,7 @@ class HomeController extends AbstractController
                     $indexID = $unUser->getIdentifiant();
                     $prenom = $unUser->getPrenom();
                     $id = $unUser->getId();
-                    if ($unUser->getMdp() == $user->getMdp()) {
+                    if ($unUser->getMdp() == $this->cryptageVigenere($user->getMdp())) {
                         $indexPW = $unUser->getIdentifiant();
                         $type = $unUser->getMonType()->getLibelle(); //recuperation du type de l'utilisateur
                         break;
@@ -172,5 +172,66 @@ class HomeController extends AbstractController
 
 
         return new JsonResponse($formatted); //retourne un fichier json
+    }
+
+    #/**
+    # * @Route("/cryptage/{mot}", name="cryptage")
+    # */
+    function cryptageVigenere($mot)
+    {
+        $cle = "41lac27ga35";
+        $motcode = "";
+        $longCle = strlen($cle);
+        $longMot = strlen($mot);
+        $cle = str_split($cle);
+        $mot = str_split($mot);
+        $tmp = 0;
+        $i = 0;
+        while ($i < $longMot) {
+            $motcode = $motcode . $this->cryptagelettre($mot[$i], $cle[$tmp]);
+            $tmp = $tmp + 1;
+            if ($tmp == $longCle) {
+                $tmp = 0;
+            }
+            $i++;
+        }
+        return $motcode;
+    }
+
+    function rangdanslalphabet($lettre)
+    {
+        $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        $N = strlen($alphabet);
+        $alphabet = str_split($alphabet);
+        $j = 0;
+        $rang = 0;
+        while ($j < $N) {
+            if ($lettre == $alphabet[$j]) {
+                $rang = $j;
+            }
+            $j++;
+        }
+        return $rang;
+    }
+
+    function lettredelalphabet($rang)
+    {
+        $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        $N = strlen($alphabet);
+        $alphabet = str_split($alphabet);
+        if ($rang >= $N) {
+            $rang = $rang - $N;
+        }
+        if ($rang < 0) {
+            $rang = $rang + $N;
+        }
+        $lettre = $alphabet[$rang];
+        return $lettre;
+    }
+
+    function cryptagelettre($lettre, $cle)
+    {
+        $code = $this->rangdanslalphabet($lettre) + $this->rangdanslalphabet($cle);
+        return $this->lettredelalphabet($code);
     }
 }

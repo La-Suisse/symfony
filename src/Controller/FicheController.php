@@ -62,15 +62,21 @@ class FicheController extends AbstractController
         if (!isset($idSession)) {
             return $this->redirectToRoute('login');
         }
+
+        //recuperation de la fiche en elle meme pour pouvoir creer les nouveaux hors forfaits
+        $repoFiche = $this->getDoctrine()->getRepository(FicheFrais::class);
+        $maFiche = $repoFiche->find($id);
+
+        //si la fiche n'est pas "en cours", alors on ne peut pas la modifier
+        if ($maFiche->getMonEtat()->getId() != "1") {
+            return $this->redirectToRoute("fiche");
+        }
+
         //recuperation des forfait et hors forfait existant dans une fiche a partir de son id passer dans la route
         $repoForfait = $this->getDoctrine()->getRepository(Forfait::class);
         $repoHors = $this->getDoctrine()->getRepository(HorsForfait::class);
         $forfait = $repoForfait->findBy(['maFiche' => $id]);
         $horsforfait = $repoHors->findBy(['maFiche' => $id]);
-
-        //recuperation de la fiche en elle meme pour pouvoir creer les nouveaux hors forfaits
-        $repoFiche = $this->getDoctrine()->getRepository(FicheFrais::class);
-        $maFiche = $repoFiche->find($id);
 
         //creation des 4 formulaire des 4 type de forfait
         $form1 = $this->createForm(ForfaitType::class, $forfait[0]);
@@ -214,6 +220,13 @@ class FicheController extends AbstractController
         $idSession = $session->get('idSession');
         if (!isset($idSession)) {
             return $this->redirectToRoute('login');
+        }
+
+        //on récupère la derniere fiche de l'utilisateur pour savoir si elle est de ce mois-ci
+        $repoFiche = $this->getDoctrine()->getRepository(FicheFrais::class);
+        $lastFiche = $repoFiche->findBy(['monUtilisateur' => $idSession]);
+        if ($lastFiche[0]->getDate()->format('m') == date('m')) {
+            return $this->redirectToRoute('fiche');
         }
 
         //creation d'une fiche vierge et recuperation des information pour la fiche
