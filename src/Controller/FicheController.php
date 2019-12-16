@@ -30,11 +30,8 @@ class FicheController extends AbstractController
 
         //recuperation de l'utilisateur en fonction de son id aissi que toutes les fiches
         $repo = $this->getDoctrine()->getRepository(Utilisateur::class);
-        $repoFiches = $this->getDoctrine()->getRepository(FicheFrais::class);
         $UserBdd = $repo->find($idSession);
-        dump($UserBdd);
         $listefiches = $UserBdd->getMaFicheFrais();
-        dump($listefiches);
 
         //sert a griser le bouton si une fiche a ete cree par l'utilisateur ce mois ci
         $etatBouton = "";

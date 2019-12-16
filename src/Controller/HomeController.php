@@ -42,7 +42,7 @@ class HomeController extends AbstractController
             foreach ($listeuser as $unUser) {
                 if ($unUser->getIdentifiant() == $user->getIdentifiant()) {
                     $indexID = $unUser->getIdentifiant();
-                    $prenom = $unUser->getPrenom();
+                    $prenom = $unUser->getIdentifiant();
                     $id = $unUser->getId();
                     if ($unUser->getMdp() == $this->cryptageVigenere($user->getMdp())) {
                         $indexPW = $unUser->getIdentifiant();
