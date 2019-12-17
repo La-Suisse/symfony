@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Twig_Extensions_Extension_Intl;
 
 class HomeController extends AbstractController
 {
@@ -26,7 +26,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/log", name="login")
+     * @Route("/connexion", name="login")
      */
     public function login(Request $request) //UC : gestion de la connexion
     {
@@ -35,27 +35,15 @@ class HomeController extends AbstractController
         $form = $this->createForm(UtilisateurType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $listeuser = $log->findAll();
-            $indexID = '';
-            $indexPW = 't';
-            $prenom = "";
-            foreach ($listeuser as $unUser) {
-                if ($unUser->getIdentifiant() == $user->getIdentifiant()) {
-                    $indexID = $unUser->getIdentifiant();
-                    $prenom = $unUser->getPrenom();
-                    $id = $unUser->getId();
-                    if ($unUser->getMdp() == $user->getMdp()) {
-                        $indexPW = $unUser->getIdentifiant();
-                        $type = $unUser->getMonType()->getLibelle(); //recuperation du type de l'utilisateur
-                        break;
-                    }
-                }
-            }
-            if ($indexPW == $indexID && $type == 'Visiteur') { // compare si l'identifiant et le mot de passe correspondent au meme utilisateur et verrifie aussi son type
+            $userBDD = $log->findBy(
+                ['identifiant' => $user->getIdentifiant(), 'mdp' => $this->cryptageVigenere($user->getMdp()), 'monType' => 1]
+            );
+            if ($userBDD) {
+
                 // debut : assigne les information en session
                 $session = $request->getSession();
-                $session->set('PrenomSession', $prenom);
-                $session->set('idSession', $id);
+                $session->set('PrenomSession', $userBDD[0]->getIdentifiant());
+                $session->set('idSession', $userBDD[0]->getId());
                 // fin
 
                 $this->addFlash('home', 'Vous êtes connecté.'); //message flash a la connexion
@@ -172,5 +160,66 @@ class HomeController extends AbstractController
 
 
         return new JsonResponse($formatted); //retourne un fichier json
+    }
+
+    #/**
+    # * @Route("/cryptage/{mot}", name="cryptage")
+    # */
+    function cryptageVigenere($mot)
+    {
+        $cle = "41lac27ga35";
+        $motcode = "";
+        $longCle = strlen($cle);
+        $longMot = strlen($mot);
+        $cle = str_split($cle);
+        $mot = str_split($mot);
+        $tmp = 0;
+        $i = 0;
+        while ($i < $longMot) {
+            $motcode = $motcode . $this->cryptagelettre($mot[$i], $cle[$tmp]);
+            $tmp = $tmp + 1;
+            if ($tmp == $longCle) {
+                $tmp = 0;
+            }
+            $i++;
+        }
+        return $motcode;
+    }
+
+    function rangdanslalphabet($lettre)
+    {
+        $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        $N = strlen($alphabet);
+        $alphabet = str_split($alphabet);
+        $j = 0;
+        $rang = 0;
+        while ($j < $N) {
+            if ($lettre == $alphabet[$j]) {
+                $rang = $j;
+            }
+            $j++;
+        }
+        return $rang;
+    }
+
+    function lettredelalphabet($rang)
+    {
+        $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        $N = strlen($alphabet);
+        $alphabet = str_split($alphabet);
+        if ($rang >= $N) {
+            $rang = $rang - $N;
+        }
+        if ($rang < 0) {
+            $rang = $rang + $N;
+        }
+        $lettre = $alphabet[$rang];
+        return $lettre;
+    }
+
+    function cryptagelettre($lettre, $cle)
+    {
+        $code = $this->rangdanslalphabet($lettre) + $this->rangdanslalphabet($cle);
+        return $this->lettredelalphabet($code);
     }
 }
