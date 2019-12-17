@@ -13,6 +13,7 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig_Extensions_Extension_Intl;
 
 class FicheController extends AbstractController
 {
