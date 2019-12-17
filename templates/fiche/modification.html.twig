@@ -58,14 +58,14 @@
 			<li class="list-group-item align-items-end">
 				{{ form_start(form1,{'action': path('form1Route',{'id':idFiche}), 'method': 'GET'}) }}
 				<div class="row">
-					<div class="col-6 center">
+					<div class="col-md-6 col-xs-12 center">
 						{{forfaits[0].monType.libelle}}
 						({{forfaits[0].monType.prix}}€)
 					</div>
-					<div class="col-3 center5">
+					<div class="col-md-3 col-xs-12 center5">
 						{{form_widget(form1.quantite)}}
 					</div>
-					<div class="col-3">
+					<div class="col-md-3 col-xs-12">
 						{{form_widget(form1.sauvegarder)}}
 					</div>
 				</div>
@@ -75,14 +75,14 @@
 			<li class="list-group-item align-items-end">
 				{{ form_start(form2,{'action': path('form2Route',{'id':idFiche}), 'method': 'GET'}) }}
 				<div class="row">
-					<div class="col-6 center">
+					<div class="col-md-6 col-xs-12 center">
 						{{forfaits[1].monType.libelle}}
 						({{forfaits[1].monType.prix}}€)
 					</div>
-					<div class="col-3 center5">
+					<div class="col-md-3 col-xs-12 center5">
 						{{form_widget(form2.quantite)}}
 					</div>
-					<div class="col-3">
+					<div class="col-md-3 col-xs-12">
 						{{form_widget(form2.sauvegarder)}}
 					</div>
 				</div>
@@ -92,14 +92,14 @@
 			<li class="list-group-item align-items-end">
 				{{ form_start(form3,{'action': path('form3Route',{'id':idFiche}), 'method': 'GET'}) }}
 				<div class="row">
-					<div class="col-6 center">
+					<div class="col-md-6 col-xs-12 center">
 						{{forfaits[2].monType.libelle}}
 						({{forfaits[2].monType.prix}}€)
 					</div>
-					<div class="col-3 center5">
+					<div class="col-md-3 col-xs-12 center5">
 						{{form_widget(form3.quantite)}}
 					</div>
-					<div class="col-3">
+					<div class="col-md-3 col-xs-12">
 						{{form_widget(form3.sauvegarder)}}
 					</div>
 				</div>
@@ -109,14 +109,14 @@
 			<li class="list-group-item align-items-end">
 				{{ form_start(form4,{'action': path('form4Route',{'id':idFiche}), 'method': 'GET'}) }}
 				<div class="row">
-					<div class="col-6 center">
+					<div class="col-md-6 col-xs-12 center">
 						{{forfaits[3].monType.libelle}}
 						({{forfaits[3].monType.prix}}€)
 					</div>
-					<div class="col-3 center5">
+					<div class="col-md-3 col-xs-12 center5">
 						{{form_widget(form4.quantite)}}
 					</div>
-					<div class="col-3">
+					<div class="col-md-3 col-xs-12">
 						{{form_widget(form4.sauvegarder)}}
 					</div>
 				</div>

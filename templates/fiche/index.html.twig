@@ -37,18 +37,23 @@
 	</style>
 
 	<div class="example-wrapper bg">
-		<div class="d-flex justify-content-between row">
-			<h1 class="col-xs-6">Liste des fiches</h1>
-			<a href="{{path('creation')}}" class="btn btn-dark col-xs-3 {{etatBouton}}" role="button">Ajouter une fiche
-				<i class="fas fa-plus-circle"></i>
-			</a>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<h1>Liste des fiches</h1>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+				<a href="{{path('creation')}}" class="btn btn-dark {{etatBouton}}" role="button">Ajouter une fiche
+					<i class="fas fa-plus-circle"></i>
+				</a>
+			</div>
+
 		</div>
 		<ul class="list-group mb-3 hover-blue">
 			{% for uneFiche in listeFrais%}
 				<li class="list-group-item align-items-end">
 					<div class="row">
-						<div class=" col-10 center">
-							{{ uneFiche.date|date("F Y")}}
+						<div class="col-10 center">
+							{{ uneFiche.date|localizeddate('none','none','fr', null, 'MMMM y')}}
 						</div>
 						<div class="col-2" style="float:right;">
 							{% if uneFiche.monEtat.id >= 3 %}
