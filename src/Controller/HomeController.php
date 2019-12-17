@@ -157,8 +157,6 @@ class HomeController extends AbstractController
                 "type" => $utilisateur->getMonType()->getLibelle(),
             ];
         }
-
-
         return new JsonResponse($formatted); //retourne un fichier json
     }
 
